@@ -12,12 +12,14 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		// User name and password authentication
 		auth.inMemoryAuthentication().withUser("user").password("{noop}password").roles("USER").and().withUser("admin")
 				.password("{noop}password").roles("USER", "ADMIN");
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		// http-url permissions
 		http.authorizeRequests().antMatchers("/").permitAll().antMatchers("/user").hasRole("USER").antMatchers("/admin")
 				.hasRole("ADMIN").and().formLogin().permitAll().and().logout().permitAll();
 	}
